@@ -35,8 +35,8 @@ class FullMapState extends State<FullMap> {
   LocationDetails _startLocation;
   LocationDetails _destLocation;
 
-  ///Add marker/symbol on the user location or
-  ///update the symbol's location if it does exist
+  ///Añadir marcador/símbolo en la ubicación del usuario o
+  ///actualiza la ubicación del símbolo si existe
   Future<void> updateUserLoc(LocationData newLocalData) async {
     final newLoc = LatLng(newLocalData.latitude, newLocalData.longitude);
     if (userLocSymbol != null) {
@@ -60,8 +60,8 @@ class FullMapState extends State<FullMap> {
     userLoc = newLocalData;
   }
 
-  ///Request user loc Permissions - add symbol on the use loc
-  ///and set user location listener (if access granted)
+  ///Solicitar permisos de ubicación de usuario: agregue un símbolo en la ubicación de uso
+  ///y establecer la escucha de la ubicación del usuario (si se otorga el acceso)
   Future<void> getCurrentLocation() async {
     userLoc = await requestLicationPermissionAndUserLoc();
     if (userLoc != null) {
@@ -81,9 +81,9 @@ class FullMapState extends State<FullMap> {
   Future<void> _onMapCreated(MapboxMapController controller) async {
     mapController = context.read<MapProvider>().setController(controller);
 
-    //if tapped it'll update the symbol color to red
-    //and set selectedMarker to tapped marker
-    //also it'll change the map state to MapState.Pinlocation
+    //si se toca, actualizará el color del símbolo a rojo
+    // y establece el marcador seleccionado en el marcador tocado
+    //también cambiará el estado del mapa a MapState.Pinlocation
     mapController.onSymbolTapped.add((marker) async {
       if (marker != userLocSymbol) {
         if (selectedMarker != null) {
@@ -97,7 +97,7 @@ class FullMapState extends State<FullMap> {
         context.read<MapProvider>().changeMapstate(MapState.Pinlocation);
       }
     });
-    // markers are hard coded in the fuction's file
+    // los marcadores están codificados en el archivo de la función
     addYourMarkersToMap(mapController);
   }
 
@@ -201,10 +201,10 @@ class FullMapState extends State<FullMap> {
     );
   }
 
-  //This func should be called after the user select
-  //the new starting/dest location
-  //This fuction is responibale for setting the new starting/dest value
-  //based on ChangingLocationState and showing the new path
+  //Esta función debe llamarse después de que el usuario seleccione
+  //la nueva ubicación de inicio/destino
+  //Esta función es responsable de establecer el nuevo valor de inicio/destino
+  //basado en ChangingLocationState y mostrando la nueva ruta
   void setNewLoc() {
     final temploc = LocationDetails(
       coordinates: selectedMarker.options.geometry,
@@ -220,9 +220,9 @@ class FullMapState extends State<FullMap> {
     showPath(_destLocation, startLocation: _startLocation);
   }
 
-  ///takes start location and dest location and draws the path
-  ///if the start loc is null it will defaults to the user location if it's not null
-  ///The destination location is required when calling the func
+  ///toma la ubicación de inicio y la ubicación de destino y dibuja la ruta
+  ///si la ubicación de inicio es nula, por defecto será la ubicación del usuario si no es nula
+  ///Se requiere la ubicación de destino al llamar a la func
   Future<void> showPath(
     LocationDetails destLocation, {
     LocationDetails startLocation,
@@ -260,10 +260,10 @@ class FullMapState extends State<FullMap> {
     }
   }
 
-  ///This func is responsable for clearing any path and removes
-  ///the selected marker (if it is none primary)
-  ///from the map and it will set the mapState to [MapState.None]
-  ///Note:if the marker is primary it will change it's color back to black
+  ///Esta función se encarga de limpiar cualquier ruta y elimina
+  ///el marcador seleccionado (si no es primario)
+  /// del mapa y establecerá mapState en [MapState.None]
+  ///Nota: si el marcador es primario, cambiará su color de nuevo a negro
   Future<void> clearAll() async {
     mapController.clearLines();
     if (selectedMarker != null) if (selectedMarker.options.textField == null ||
